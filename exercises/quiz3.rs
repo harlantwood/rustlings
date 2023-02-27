@@ -16,16 +16,37 @@
 
 // I AM NOT DONE
 
-pub struct ReportCard {
+use std::fmt;
+
+pub struct ReportCardNumeric {
     pub grade: f32,
     pub student_name: String,
     pub student_age: u8,
 }
 
-impl ReportCard {
-    pub fn print(&self) -> String {
-        format!("{} ({}) - achieved a grade of {}",
-            &self.student_name, &self.student_age, &self.grade)
+pub struct ReportCardAlpha {
+    pub grade: String,
+    pub student_name: String,
+    pub student_age: u8,
+}
+
+impl fmt::Display for ReportCardNumeric {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{} ({}) - achieved a grade of {}",
+            &self.student_name, &self.student_age, &self.grade
+        )
+    }
+}
+
+impl fmt::Display for ReportCardAlpha {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{} ({}) - achieved a grade of {}",
+            &self.student_name, &self.student_age, &self.grade
+        )
     }
 }
 
@@ -35,13 +56,13 @@ mod tests {
 
     #[test]
     fn generate_numeric_report_card() {
-        let report_card = ReportCard {
+        let report_card = ReportCardNumeric {
             grade: 2.1,
             student_name: "Tom Wriggle".to_string(),
             student_age: 12,
         };
         assert_eq!(
-            report_card.print(),
+            report_card.to_string(),
             "Tom Wriggle (12) - achieved a grade of 2.1"
         );
     }
@@ -49,13 +70,13 @@ mod tests {
     #[test]
     fn generate_alphabetic_report_card() {
         // TODO: Make sure to change the grade here after you finish the exercise.
-        let report_card = ReportCard {
-            grade: 2.1,
+        let report_card = ReportCardAlpha {
+            grade: "A+".into(),
             student_name: "Gary Plotter".to_string(),
             student_age: 11,
         };
         assert_eq!(
-            report_card.print(),
+            report_card.to_string(),
             "Gary Plotter (11) - achieved a grade of A+"
         );
     }
